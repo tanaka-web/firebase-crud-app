@@ -1,9 +1,12 @@
-import App from '../components/App'
+import React from 'react';
+import App from '../components/App';
 
-export default function Home() {
+const Home: React.FC = () => {
   return (
     <App>
       <p>Index Page</p>
     </App>
-  )
-}
+  );
+};
+
+export default Home;

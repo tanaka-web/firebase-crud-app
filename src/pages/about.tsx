@@ -1,9 +1,12 @@
-import App from '../components/App'
+import React from 'react';
+import App from '../components/App';
 
-export default function About() {
+const About: React.FC = () => {
   return (
     <App>
       <p>About Page</p>
     </App>
-  )
-}
+  );
+};
+
+export default About;
