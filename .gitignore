@@ -34,3 +34,6 @@ ui-debug.log
 
 # vercel
 .vercel
+
+# firebase keys
+src/plugins/firebase.ts
