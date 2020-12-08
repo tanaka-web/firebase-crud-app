@@ -37,3 +37,4 @@ ui-debug.log
 
 # firebase keys
 src/plugins/firebase.ts
+firebase-debug.log
