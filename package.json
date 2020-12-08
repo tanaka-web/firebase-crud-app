@@ -17,12 +17,15 @@
     "lint:fix": "yarn run lint --fix"
   },
   "dependencies": {
+    "bootstrap": "^4.5.3",
     "firebase-admin": "^8.9.0",
     "firebase-functions": "^3.3.0",
+    "formik": "^2.2.5",
     "next": "^9.3.4",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "styled-components": "^5.2.1"
+    "styled-components": "^5.2.1",
+    "yup": "^0.32.3"
   },
   "devDependencies": {
     "@types/node": "^14.14.10",
