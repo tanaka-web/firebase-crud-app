@@ -3,23 +3,29 @@ import { Form, FormGroup, Label, Input, Button, FormFeedback } from 'reactstrap'
 import Link from 'next/link';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
-import { db } from '../../plugins/firebase';
+import firebase, { db } from '../../plugins/firebase';
 import { useRouter } from 'next/router';
+
+const DESIRED_JOB = ['ディレクター', 'デザイナー', 'エンジニア', 'その他'];
 
 const Detail: React.FC = () => {
   const [user, setUsre] = useState<any>();
   const { push, query } = useRouter();
 
   const handleOnSubmit = useCallback((values) => {
-    db.collection('members').doc(String(query.id)).update({
-      name: values.name,
+    db.collection('users').doc(String(query.id)).update({
+      name: values.username,
       email: values.email,
+      age: values.age,
+      desired_job: values.desired_job,
+      desired_reason: values.desired_reason,
+      updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
     });
     push('/users/');
   }, []);
 
   const getMember = async (uid) => {
-    const docRef = db.collection('members').doc(uid);
+    const docRef = db.collection('users').doc(uid);
     const doc = await docRef.get();
     if (!doc.exists) return;
     setUsre(doc.data());
@@ -27,7 +33,7 @@ const Detail: React.FC = () => {
 
   const handleDelete = useCallback((uid) => {
     if (window.confirm('削除しますか？')) {
-      db.collection('members').doc(uid).delete();
+      db.collection('users').doc(uid).delete();
       push('/users');
     }
   }, []);
@@ -40,16 +46,22 @@ const Detail: React.FC = () => {
     <div className="container">
       <h3 className="text-center my-5">詳細・編集</h3>
       <div className="text-right my-3">
-        <Link href="/">一覧へ戻る</Link>
+        <Link href="/users">一覧へ戻る</Link>
       </div>
       <Formik
         enableReinitialize
-        initialValues={{ name: user?.name, email: user?.email }}
+        initialValues={{
+          username: user?.username,
+          email: user?.email,
+          age: user?.age,
+          desired_job: user?.desired_job,
+          desired_reason: user?.desired_reason,
+        }}
         onSubmit={(values) => handleOnSubmit(values)}
-        // validationSchema={Yup.object().shape({
-        //   name: Yup.string().required('氏名は必須です。'),
-        //   email: Yup.string().email('emailの形式ではありません。').required('Emailは必須です。'),
-        // })}
+        validationSchema={Yup.object().shape({
+          username: Yup.string().required('氏名は必須です。'),
+          email: Yup.string().email('emailの形式ではありません。').required('Emailは必須です。'),
+        })}
       >
         {({ handleSubmit, handleChange, handleBlur, values, errors, touched }) => (
           <Form onSubmit={handleSubmit}>
@@ -59,12 +71,12 @@ const Detail: React.FC = () => {
                 type="text"
                 name="name"
                 id="name"
-                value={values.name}
+                value={values.username}
                 onChange={handleChange}
                 onBlur={handleBlur}
-                invalid={Boolean(touched.name && errors.name)}
+                invalid={Boolean(touched.username && errors.username)}
               />
-              <FormFeedback>{errors.name}</FormFeedback>
+              <FormFeedback>{errors.username}</FormFeedback>
             </FormGroup>
             <FormGroup>
               <Label for="email">Email</Label>
@@ -79,9 +91,44 @@ const Detail: React.FC = () => {
               />
               <FormFeedback>{errors.email}</FormFeedback>
             </FormGroup>
-            <Button type="submit" color="success">
-              更新
-            </Button>
+            <FormGroup>
+              <Label for="age">年齢</Label>
+              <Input
+                type="number"
+                email="age"
+                id="age"
+                value={values.age}
+                onChange={handleChange}
+                onBlur={handleBlur}
+              />
+            </FormGroup>
+            <FormGroup>
+              <Label for="desired_job">希望職種</Label>
+              <Input
+                type="select"
+                name="desired_job"
+                id="exampleSelect"
+                value={values.desired_job}
+                onChange={handleChange}
+              >
+                {DESIRED_JOB.map((item) => (
+                  <option key={item} value={item}>
+                    {item}
+                  </option>
+                ))}
+              </Input>
+            </FormGroup>
+            <FormGroup>
+              <Label for="desired_reason">希望理由</Label>
+              <Input
+                type="textarea"
+                name="desired_reason"
+                value={values.desired_reason}
+                onChange={handleChange}
+                onBlur={handleBlur}
+              />
+            </FormGroup>
+            <Button type="submit">更新</Button>
           </Form>
         )}
       </Formik>

@@ -8,7 +8,7 @@ const Index: React.FC = () => {
 
   const getData = useCallback(() => {
     const getDocs = async () => {
-      const snapshots = await db.collection('members').get();
+      const snapshots = await db.collection('users').get();
       const _docs = await snapshots.docs?.map((doc) => ({ id: doc.id, data: doc.data() }));
       setList(_docs);
     };
