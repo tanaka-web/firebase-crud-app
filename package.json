@@ -17,6 +17,7 @@
     "lint:fix": "yarn run lint --fix"
   },
   "dependencies": {
+    "@zeit/next-css": "^1.0.1",
     "bootstrap": "^4.5.3",
     "firebase": "^8.1.2",
     "firebase-admin": "^8.9.0",
