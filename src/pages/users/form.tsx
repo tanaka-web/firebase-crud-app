@@ -45,7 +45,8 @@ const Create: React.FC = () => {
               <Label for="name">氏名</Label>
               <Input
                 type="text"
-                name="name"
+                id="username"
+                name="username"
                 value={values.username}
                 onChange={handleChange}
                 onBlur={handleBlur}
@@ -57,7 +58,8 @@ const Create: React.FC = () => {
               <Label for="email">Email</Label>
               <Input
                 type="email"
-                email="email"
+                id="email"
+                name="email"
                 value={values.email}
                 onChange={handleChange}
                 onBlur={handleBlur}
@@ -69,7 +71,8 @@ const Create: React.FC = () => {
               <Label for="age">年齢</Label>
               <Input
                 type="number"
-                email="age"
+                id="age"
+                name="age"
                 value={values.age}
                 onChange={handleChange}
                 onBlur={handleBlur}
@@ -79,6 +82,7 @@ const Create: React.FC = () => {
               <Label for="desired_job">希望職種</Label>
               <Input
                 type="select"
+                id="desired_job"
                 name="desired_job"
                 value={values.desired_job}
                 onChange={handleChange}
@@ -94,6 +98,7 @@ const Create: React.FC = () => {
               <Label for="desired_reason">希望理由</Label>
               <Input
                 type="textarea"
+                id="desired_reason"
                 name="desired_reason"
                 value={values.desired_reason}
                 onChange={handleChange}
