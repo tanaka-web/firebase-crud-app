@@ -7,6 +7,7 @@ import firebase, { db } from '../../plugins/firebase';
 import { useRouter } from 'next/router';
 
 const DESIRED_JOB = ['ディレクター', 'デザイナー', 'エンジニア', 'その他'];
+const STATUS = ['受付', '承認済み'];
 
 const Detail: React.FC = () => {
   const [user, setUsre] = useState<any>();
@@ -19,6 +20,7 @@ const Detail: React.FC = () => {
       age: values.age,
       desired_job: values.desired_job,
       desired_reason: values.desired_reason,
+      status: values.status,
       updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
     });
     push('/users/');
@@ -51,11 +53,12 @@ const Detail: React.FC = () => {
       <Formik
         enableReinitialize
         initialValues={{
-          username: user?.username,
-          email: user?.email,
-          age: user?.age,
-          desired_job: user?.desired_job,
-          desired_reason: user?.desired_reason,
+          username: user?.username ?? '',
+          email: user?.email ?? '',
+          age: user?.age ?? '',
+          desired_job: user?.desired_job ?? '',
+          desired_reason: user?.desired_reason ?? '',
+          status: user?.status ?? '受付',
         }}
         onSubmit={(values) => handleOnSubmit(values)}
         validationSchema={Yup.object().shape({
@@ -70,7 +73,6 @@ const Detail: React.FC = () => {
               <Input
                 type="text"
                 name="name"
-                id="name"
                 value={values.username}
                 onChange={handleChange}
                 onBlur={handleBlur}
@@ -83,7 +85,6 @@ const Detail: React.FC = () => {
               <Input
                 type="email"
                 email="email"
-                id="email"
                 value={values.email}
                 onChange={handleChange}
                 onBlur={handleBlur}
@@ -96,7 +97,6 @@ const Detail: React.FC = () => {
               <Input
                 type="number"
                 email="age"
-                id="age"
                 value={values.age}
                 onChange={handleChange}
                 onBlur={handleBlur}
@@ -107,7 +107,6 @@ const Detail: React.FC = () => {
               <Input
                 type="select"
                 name="desired_job"
-                id="exampleSelect"
                 value={values.desired_job}
                 onChange={handleChange}
               >
@@ -127,6 +126,16 @@ const Detail: React.FC = () => {
                 onChange={handleChange}
                 onBlur={handleBlur}
               />
+            </FormGroup>
+            <FormGroup>
+              <Label for="status">ステータス</Label>
+              <Input type="select" name="status" value={values.status} onChange={handleChange}>
+                {STATUS.map((item) => (
+                  <option key={item} value={item}>
+                    {item}
+                  </option>
+                ))}
+              </Input>
             </FormGroup>
             <Button type="submit">更新</Button>
           </Form>

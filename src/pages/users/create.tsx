@@ -19,6 +19,7 @@ const Create: React.FC = () => {
       age: values.age,
       desired_job: values.desired_job,
       desired_reason: values.desired_reason,
+      status: '受付',
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
     });
     router.push('/users');
@@ -45,7 +46,6 @@ const Create: React.FC = () => {
               <Input
                 type="text"
                 name="name"
-                id="name"
                 value={values.username}
                 onChange={handleChange}
                 onBlur={handleBlur}
@@ -58,7 +58,6 @@ const Create: React.FC = () => {
               <Input
                 type="email"
                 email="email"
-                id="email"
                 value={values.email}
                 onChange={handleChange}
                 onBlur={handleBlur}
@@ -71,7 +70,6 @@ const Create: React.FC = () => {
               <Input
                 type="number"
                 email="age"
-                id="age"
                 value={values.age}
                 onChange={handleChange}
                 onBlur={handleBlur}
@@ -82,7 +80,6 @@ const Create: React.FC = () => {
               <Input
                 type="select"
                 name="desired_job"
-                id="exampleSelect"
                 value={values.desired_job}
                 onChange={handleChange}
               >
