@@ -15,7 +15,7 @@ const Detail: React.FC = () => {
       name: values.name,
       email: values.email,
     });
-    push('/');
+    push('/users/');
   }, []);
 
   const getMember = async (uid) => {
@@ -28,7 +28,7 @@ const Detail: React.FC = () => {
   const handleDelete = useCallback((uid) => {
     if (window.confirm('削除しますか？')) {
       db.collection('members').doc(uid).delete();
-      push('/');
+      push('/users');
     }
   }, []);
 

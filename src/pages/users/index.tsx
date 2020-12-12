@@ -27,7 +27,7 @@ const Index: React.FC = () => {
     <div className="container">
       <h3 className="text-center my-5">一覧表示</h3>
       <div className="my-3">
-        <Link href="/create">新規登録</Link>
+        <Link href="/users/create">新規登録</Link>
       </div>
       <div className="table">
         <ul>

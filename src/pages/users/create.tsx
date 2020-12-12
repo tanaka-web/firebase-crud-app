@@ -16,8 +16,7 @@ const Create: React.FC = () => {
       email: values.email,
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
     });
-
-    router.push('/');
+    router.push('/users');
   }, []);
 
   return (

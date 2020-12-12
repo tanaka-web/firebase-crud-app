@@ -7,11 +7,8 @@ type Props = {
 
 const Header: React.FC<Props> = ({ pathname }) => (
   <header>
-    <Link href="/">
+    <Link href="/users">
       <a className={pathname === '/' ? 'is-active' : ''}>Home</a>
-    </Link>{' '}
-    <Link href="/about">
-      <a className={pathname === '/about' ? 'is-active' : ''}>About</a>
     </Link>
   </header>
 );
