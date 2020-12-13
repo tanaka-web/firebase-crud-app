@@ -6,9 +6,7 @@ import { Formik } from 'formik';
 import * as Yup from 'yup';
 import firebase, { db } from '../../plugins/firebase';
 import { sendMail } from '../../apis/mail/send';
-
-const DESIRED_JOB = ['職種1', '職種2', '職種3', 'その他'];
-const SEND_MAIL_TEXT = 'エントリーを受け付けました。\nご応募ありがとうございます。';
+import { DESIRED_JOB, SEND_MAIL_TEXT } from '../../config';
 
 const Create: React.FC = () => {
   const router = useRouter();

@@ -12,11 +12,8 @@ export default () => {
   const { push, pathname } = useRouter();
 
   const handleRedirectLogin = useCallback(() => {
-    if (!isLoginChecked) return;
-    if (!WITH_AUTH_PATH_LIST.includes(pathname)) return;
-    if (!isLogined) {
-      push('/login');
-    }
+    if (!isLoginChecked || !WITH_AUTH_PATH_LIST.includes(pathname)) return;
+    if (!isLogined) push('/login');
   }, [isLogined, isLoginChecked, pathname]);
 
   const handleLogin = useCallback(async (values) => {

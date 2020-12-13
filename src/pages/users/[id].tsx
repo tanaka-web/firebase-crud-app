@@ -5,9 +5,7 @@ import { Formik } from 'formik';
 import * as Yup from 'yup';
 import firebase, { db } from '../../plugins/firebase';
 import { useRouter } from 'next/router';
-
-const DESIRED_JOB = ['職種1', '職種2', '職種3', 'その他'];
-const STATUS = ['受付', '承認済'];
+import { DESIRED_JOB, USER_STATUS } from '../../config';
 
 const Detail: React.FC = () => {
   const [user, setUsre] = useState<any>();
@@ -139,7 +137,7 @@ const Detail: React.FC = () => {
             <FormGroup>
               <Label for="status">ステータス</Label>
               <Input type="select" name="status" value={values.status} onChange={handleChange}>
-                {STATUS.map((item) => (
+                {USER_STATUS.map((item) => (
                   <option key={item} value={item}>
                     {item}
                   </option>

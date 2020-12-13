@@ -2,7 +2,6 @@ import React, { useCallback, useEffect, useState } from 'react';
 import Link from 'next/link';
 import { Button, Form, FormGroup, Input } from 'reactstrap';
 import { Formik } from 'formik';
-import * as Yup from 'yup';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
 import { db } from '../../plugins/firebase';
@@ -18,15 +17,11 @@ const Index: React.FC = () => {
     async (type?: 'prev' | 'next') => {
       let snapshots;
       try {
-        if (type === 'prev') {
+        if (type === 'prev')
           snapshots = await usersRef.orderBy('createdAt').endBefore(prevDoc).limit(10).get();
-        }
-        if (type === 'next') {
+        if (type === 'next')
           snapshots = await usersRef.orderBy('createdAt').startAfter(nextDoc).limit(10).get();
-        }
-        if (!type) {
-          snapshots = await usersRef.orderBy('createdAt').limit(10).get();
-        }
+        if (!type) snapshots = await usersRef.orderBy('createdAt').limit(10).get();
       } catch {
         return;
       }
@@ -46,7 +41,7 @@ const Index: React.FC = () => {
     getData();
   }, []);
 
-  const EmailSearch = useCallback(async (text) => {
+  const handleSearch = useCallback(async (text) => {
     if (text === '') return getData();
     let snapshots;
     snapshots = await usersRef.where('email', '==', text).get();
@@ -64,7 +59,7 @@ const Index: React.FC = () => {
         <a href="https://us-central1-fir-crud-app-2a3a9.cloudfunctions.net/exportUsers">CSV出力</a>
       </div>
       <SearchWrapper>
-        <Formik initialValues={{ text: '' }} onSubmit={(values) => EmailSearch(values.text)}>
+        <Formik initialValues={{ text: '' }} onSubmit={(values) => handleSearch(values.text)}>
           {({ handleSubmit, handleChange, values }) => (
             <Form onSubmit={handleSubmit}>
               <FormGroup>
