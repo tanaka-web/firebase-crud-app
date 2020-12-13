@@ -39,7 +39,7 @@ exports.sendMail = functions.https.onRequest((req, res) => {
     const mailOptions = {
       from: gmailEmail,
       to: to,
-      subject: 'This is a sample of email function',
+      subject: 'エントリーを受け付けました',
       html: `${msg}`,
     };
 
