@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useMemo } from 'react';
+import React, { useEffect } from 'react';
 import { AppProps } from 'next/app';
 import Head from 'next/head';
 import Header from '../components/Header';

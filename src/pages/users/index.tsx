@@ -11,7 +11,6 @@ const Index: React.FC = () => {
   const [list, setList] = useState<any>();
   const [nextDoc, setNextDoc] = useState<any>();
   const [prevDoc, setPrevDoc] = useState<any>();
-  const [email, setEmail] = useState<string>('');
   const { push } = useRouter();
   const usersRef = db.collection('users').orderBy('createdAt');
 
