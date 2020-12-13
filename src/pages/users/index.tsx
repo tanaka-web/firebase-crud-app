@@ -8,16 +8,38 @@ import styled from 'styled-components';
 
 const Index: React.FC = () => {
   const [list, setList] = useState<any>();
+  const [nextDoc, setNextDoc] = useState<any>();
+  const [prevDoc, setPrevDoc] = useState<any>();
   const { push } = useRouter();
+  const usersRef = db.collection('users').orderBy('createdAt');
 
-  const getData = useCallback(() => {
-    const getDocs = async () => {
-      const snapshots = await db.collection('users').get();
-      const _docs = await snapshots.docs?.map((doc) => ({ id: doc.id, data: doc.data() }));
-      setList(_docs);
-    };
-    getDocs();
-  }, []);
+  const getData = useCallback(
+    async (type?: 'prev' | 'next') => {
+      let snapshots;
+      try {
+        if (type === 'prev') {
+          snapshots = await usersRef.endBefore(prevDoc).limit(10).get();
+        }
+        if (type === 'next') {
+          snapshots = await usersRef.startAfter(nextDoc).limit(10).get();
+        }
+        if (!type) {
+          snapshots = await usersRef.limit(10).get();
+        }
+      } catch {
+        return;
+      }
+      if (snapshots.docs.length > 0) {
+        const _docs = await snapshots.docs?.map((doc) => ({ id: doc.id, data: doc.data() }));
+        setList(_docs);
+        const lastDoc = snapshots.docs[snapshots.docs.length - 1];
+        const firstDoc = snapshots.docs[0];
+        setNextDoc(lastDoc);
+        setPrevDoc(firstDoc);
+      }
+    },
+    [list, nextDoc, prevDoc, usersRef],
+  );
 
   useEffect(() => {
     getData();
@@ -57,6 +79,24 @@ const Index: React.FC = () => {
             </li>
           ))}
         </UserList>
+        <PageButtons>
+          <Button
+            outline
+            onClick={() => {
+              getData('prev');
+            }}
+          >
+            前へ
+          </Button>
+          <Button
+            outline
+            onClick={() => {
+              getData('next');
+            }}
+          >
+            次へ
+          </Button>
+        </PageButtons>
       </div>
     </div>
   );
@@ -70,10 +110,21 @@ const UserList = styled.div`
 
     > p {
       width: 25%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      padding-left: 8px;
+
       &:last-child {
         display: flex;
-        justify-content: center;
+        justify-content: flex-end;
       }
     }
   }
+`;
+
+const PageButtons = styled.div`
+  margin-top: 24px;
+  display: flex;
+  justify-content: space-between;
 `;
