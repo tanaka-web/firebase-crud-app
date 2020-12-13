@@ -107,6 +107,15 @@ export default Index;
 const UserList = styled.div`
   > li {
     display: flex;
+    margin: 0;
+    padding: 12px;
+    align-items: center;
+    &:first-child {
+      font-weight: bold;
+    }
+    &:nth-child(2n) {
+      background-color: #f6f6f6;
+    }
 
     > p {
       width: 25%;
@@ -114,6 +123,7 @@ const UserList = styled.div`
       text-overflow: ellipsis;
       white-space: nowrap;
       padding-left: 8px;
+      margin-bottom: 0;
 
       &:last-child {
         display: flex;
@@ -124,7 +134,9 @@ const UserList = styled.div`
 `;
 
 const PageButtons = styled.div`
-  margin-top: 24px;
+  margin-top: 32px;
+  padding: 12px 12px;
+  border-top: 1px solid #eee;
   display: flex;
   justify-content: space-between;
 `;
