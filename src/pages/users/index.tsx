@@ -11,6 +11,7 @@ const Index: React.FC = () => {
   const [nextDoc, setNextDoc] = useState<any>();
   const [prevDoc, setPrevDoc] = useState<any>();
   const [isSearched, setSearched] = useState<boolean>(false);
+  const [searchText, setSarchText] = useState<string>('');
   const { push } = useRouter();
   const usersRef = db.collection('users');
 
@@ -45,9 +46,8 @@ const Index: React.FC = () => {
 
   const handleSearch = useCallback(async (text) => {
     if (text === '') {
-      setSearched(false);
-      getData();
-      return;
+      handleSearchReset();
+      return false;
     }
     let snapshots;
     snapshots = await usersRef.where('email', '==', text).get();
@@ -55,6 +55,14 @@ const Index: React.FC = () => {
     const _docs = await snapshots.docs?.map((doc) => ({ id: doc.id, data: doc.data() }));
     setList(_docs);
     setSearched(true);
+    return false;
+  }, []);
+
+  const handleSearchReset = useCallback(() => {
+    setSearched(false);
+    setSarchText('');
+    getData();
+    return false;
   }, []);
 
   return (
@@ -70,26 +78,38 @@ const Index: React.FC = () => {
         )}
       </div>
       <SearchWrapper>
-        <Formik initialValues={{ text: '' }} onSubmit={(values) => handleSearch(values.text)}>
-          {({ handleSubmit, handleChange, values }) => (
-            <Form onSubmit={handleSubmit}>
-              <FormGroup>
-                <Input
-                  type="text"
-                  id="text"
-                  name="text"
-                  bsSize="sm"
-                  value={values.text}
-                  onChange={handleChange}
-                  placeholder="ユーザ名・メールアドレス"
-                />
-              </FormGroup>
-              <Button size="sm" color="primary" type="submit">
-                検索
+        <Form>
+          <FormGroup>
+            <Input
+              type="text"
+              id="text"
+              name="text"
+              bsSize="sm"
+              value={searchText}
+              onChange={(e) => {
+                setSarchText(e.target.value);
+              }}
+              placeholder="ユーザ名・メールアドレス"
+            />
+          </FormGroup>
+          <div className="search-buttons">
+            <Button
+              size="sm"
+              color="primary"
+              type="button"
+              onClick={() => {
+                handleSearch(searchText);
+              }}
+            >
+              検索
+            </Button>
+            {isSearched && (
+              <Button size="sm" type="button" outline onClick={handleSearchReset}>
+                リセット
               </Button>
-            </Form>
-          )}
-        </Formik>
+            )}
+          </div>
+        </Form>
       </SearchWrapper>
       <div>
         <UserList>
@@ -201,5 +221,10 @@ const SearchWrapper = styled.div`
     display: flex;
     align-items: center;
     margin: 0;
+  }
+  .search-buttons {
+    button {
+      margin-right: 8px;
+    }
   }
 `;
