@@ -5,24 +5,33 @@ import { Form, FormGroup, Label, Input, Button, FormFeedback } from 'reactstrap'
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import firebase, { db } from '../../plugins/firebase';
+import { sendMail } from '../../apis/mail/send';
 
 const DESIRED_JOB = ['職種1', '職種2', '職種3', 'その他'];
+const SEND_MAIL_TEXT = 'エントリーを受け付けました。\nご応募ありがとうございます。';
 
 const Create: React.FC = () => {
   const router = useRouter();
+
   const handleOnSubmit = useCallback((values) => {
     const docId = db.collection('users').doc().id;
-    db.collection('users').doc(docId).set({
-      docId: docId,
-      username: values.username,
-      email: values.email,
-      age: values.age,
-      desired_job: values.desired_job,
-      desired_reason: values.desired_reason,
-      status: '受付',
-      createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-    });
-    window.alert('エントリーを受け付けました');
+    try {
+      db.collection('users').doc(docId).set({
+        docId: docId,
+        username: values.username,
+        email: values.email,
+        age: values.age,
+        desired_job: values.desired_job,
+        desired_reason: values.desired_reason,
+        status: '受付',
+        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+      });
+      sendMail({ email: values.email, message: SEND_MAIL_TEXT });
+    } catch {
+      window.alert('送信に失敗しました\n入力を確認して再度送信してください');
+      return;
+    }
+    window.alert('エントリーを受け付けました\n登録したメールアドレスにメールを送信しました。');
     router.push('/users');
   }, []);
 
