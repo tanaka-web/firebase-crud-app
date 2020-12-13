@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import Link from 'next/link';
-import { Button, Form, FormGroup, Input, Label } from 'reactstrap';
+import { Button, Form, FormGroup, Input } from 'reactstrap';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { useRouter } from 'next/router';
@@ -57,6 +57,9 @@ const Index: React.FC = () => {
   return (
     <div className="container pb-5">
       <h3 className="text-center my-5">一覧表示</h3>
+      <div className="my-3">
+        <Link href="/users/form">新規登録</Link>
+      </div>
       <SearchWrapper>
         <Formik
           initialValues={{ email: '' }}

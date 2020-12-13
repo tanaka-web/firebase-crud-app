@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import Link from 'next/link';
 import { Button } from 'reactstrap';
 import styled from 'styled-components';
