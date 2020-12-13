@@ -36,7 +36,7 @@ const Create: React.FC = () => {
   }, []);
 
   return (
-    <div className="container">
+    <div className="container pb-5">
       <h3 className="text-center my-5">新規作成</h3>
       <div className="text-right my-3">
         <Link href="/users">一覧へ戻る</Link>

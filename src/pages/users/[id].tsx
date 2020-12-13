@@ -45,7 +45,7 @@ const Detail: React.FC = () => {
   }, [query]);
 
   return (
-    <div className="container">
+    <div className="container pb-5">
       <h3 className="text-center my-5">詳細・編集</h3>
       <div className="text-right my-3">
         <Link href="/users">一覧へ戻る</Link>

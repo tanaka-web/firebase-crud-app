@@ -8,7 +8,7 @@ const Login: React.FC = () => {
   const { handleLogin } = useAuth();
 
   return (
-    <div className="container">
+    <div className="container pb-5">
       <h3 className="text-center my-5">ログイン</h3>
       <Formik
         initialValues={{ email: '', password: '' }}

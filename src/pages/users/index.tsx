@@ -55,12 +55,9 @@ const Index: React.FC = () => {
   }, []);
 
   return (
-    <div className="container">
+    <div className="container pb-5">
       <h3 className="text-center my-5">一覧表示</h3>
-      <div className="my-3">
-        <Link href="/users/form">新規登録</Link>
-      </div>
-      <div>
+      <SearchWrapper>
         <Formik
           initialValues={{ email: '' }}
           onSubmit={(values) => EmailSearch(values.email)}
@@ -71,21 +68,24 @@ const Index: React.FC = () => {
           {({ handleSubmit, handleChange, values }) => (
             <Form onSubmit={handleSubmit}>
               <FormGroup>
-                <Label for="email">メールアドレス検索</Label>
                 <Input
                   type="email"
                   id="email"
                   name="email"
+                  size="sm"
                   value={values.email}
                   onChange={handleChange}
+                  placeholder="メールアドレス検索"
                 />
               </FormGroup>
-              <Button color="primary" type="submit">
+              <Button size="sm" color="primary" type="submit">
                 検索
               </Button>
             </Form>
           )}
         </Formik>
+      </SearchWrapper>
+      <div>
         <UserList>
           <li>
             <p>ID</p>
@@ -161,6 +161,7 @@ const UserList = styled.div`
 
       &:last-child {
         display: flex;
+        min-width: 88px;
         justify-content: flex-end;
       }
     }
@@ -173,4 +174,24 @@ const PageButtons = styled.div`
   border-top: 1px solid #eee;
   display: flex;
   justify-content: space-between;
+`;
+
+const SearchWrapper = styled.div`
+  margin-bottom: 42px;
+  form {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+  }
+  .form-control {
+    margin-right: 12px;
+  }
+  .form-group {
+    width: 280px;
+    display: flex;
+    align-items: center;
+    margin: 0;
+  }
 `;
