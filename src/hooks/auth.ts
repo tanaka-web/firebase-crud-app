@@ -4,7 +4,7 @@ import { login } from '../apis/sessions/login';
 import { logout } from '../apis/sessions/logout';
 import firebase from '../plugins/firebase';
 
-const WITH_AUTH_PATH_LIST = ['/users', '/users/[id]'];
+const WITH_AUTH_PATH_LIST = ['/', '/users', '/users/[id]'];
 
 export default () => {
   const [isLogined, setLogined] = useState(false);
