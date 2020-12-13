@@ -7,15 +7,7 @@ const cors = require('cors')({ origin: true });
 const gmailEmail = functions.config().gmail.email;
 const gmailPassword = functions.config().gmail.password;
 const admin = require('firebase-admin');
-const firebaseConfig = {
-  apiKey: 'XXXXXXXX',
-  authDomain: 'XXXXXXXX',
-  projectId: 'XXXXXXXX',
-  storageBucket: 'XXXXXXXX',
-  messagingSenderId: 'XXXXXXXX',
-  appId: 'XXXXXXXX',
-  measurementId: 'XXXXXXXX',
-};
+const { firebaseConfig } = require('./firebaseConfig');
 admin.initializeApp(firebaseConfig);
 
 const isDev = process.env.NODE_ENV !== 'production';
