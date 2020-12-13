@@ -13,7 +13,7 @@ const Detail: React.FC = () => {
   const [user, setUsre] = useState<any>();
   const { push, query } = useRouter();
 
-  const handleOnSubmit = useCallback((values) => {
+  const handleOnSubmit = useCallback(async (values) => {
     db.collection('users').doc(String(query.id)).update({
       username: values.username,
       email: values.email,
@@ -21,7 +21,7 @@ const Detail: React.FC = () => {
       desired_job: values.desired_job,
       desired_reason: values.desired_reason,
       status: values.status,
-      updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
+      createdAt: firebase.firestore.FieldValue.serverTimestamp(),
     });
     window.alert('編集内容更新しました');
   }, []);
@@ -66,6 +66,8 @@ const Detail: React.FC = () => {
           email: Yup.string()
             .email('メールアドレスの形式ではありません。')
             .required('メールアドレスは必須です。'),
+          age: Yup.number().required('年齢は必須です。'),
+          desired_job: Yup.string().required('希望職種は必須です。'),
         })}
       >
         {({ handleSubmit, handleChange, handleBlur, values, errors, touched }) => (

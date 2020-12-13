@@ -42,13 +42,21 @@ const Create: React.FC = () => {
         <Link href="/users">一覧へ戻る</Link>
       </div>
       <Formik
-        initialValues={{ username: '', email: '', age: '', desired_job: '', desired_reason: '' }}
+        initialValues={{
+          username: '',
+          email: '',
+          age: '',
+          desired_job: '職種1',
+          desired_reason: '',
+        }}
         onSubmit={(values) => handleOnSubmit(values)}
         validationSchema={Yup.object().shape({
           username: Yup.string().required('氏名は必須です。'),
           email: Yup.string()
             .email('メールアドレスの形式ではありません。')
             .required('メールアドレスは必須です。'),
+          age: Yup.number().required('年齢は必須です。'),
+          desired_job: Yup.string().required('希望職種は必須です。'),
         })}
       >
         {({ handleSubmit, handleChange, handleBlur, values, errors, touched }) => (
