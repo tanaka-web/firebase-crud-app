@@ -1,23 +1,28 @@
-# firebase_crud
+## firebase-crud-app
+crud, auth, send mail, export csv, search data, etc.
 
-base: https://github.com/vercel/next.js/tree/canary/examples/with-firebase-hosting
-
-# firebase setting
-`src/plugins/firebase.ts` を作成下記を記入
+## firebase setting
+`firebaseConfig.js` を作成、下記を記入（firebase console で確認）
 ```
-import firebase from 'firebase';
+export const firebaseConfig = {
+  apiKey: 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',
+  authDomain: 'xxxxxxxxxxxxxxxx.firebaseapp.com',
+  databaseURL: 'https://xxxxxxxxxxxxxxxx.firebaseio.com',
+  projectId: 'xxxxxxxxxxxxxxxx',
+  storageBucket: 'xxxxxxxxxxxxxxxx.appspot.com',
+  messagingSenderId: 'xxxxxxxxxxxxx',
+  appId: 'x:xxxxxxxxxxxxx:web:xxxxxxxxxxxxxxxx',
+};
+```
 
-if (!firebase.apps.length) {
-  firebase.initializeApp({
-    apiKey: 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',
-    authDomain: 'xxxxxxxxxxxxxxxx.firebaseapp.com',
-    databaseURL: 'https://xxxxxxxxxxxxxxxx.firebaseio.com',
-    projectId: 'xxxxxxxxxxxxxxxx',
-    storageBucket: 'xxxxxxxxxxxxxxxx.appspot.com',
-    messagingSenderId: 'xxxxxxxxxxxxx',
-    appId: 'x:xxxxxxxxxxxxx:web:xxxxxxxxxxxxxxxx',
-  });
-}
+## main command
+```
+- パッケージインストール
+$ yarn i
 
-export default firebase;
+- 開発環境
+$ yarn dev
+
+- 本番環境(firebase)デプロイ
+$ yarn deploy
 ```
