@@ -1,15 +1,17 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import Link from 'next/link';
-
-import { db } from '../../plugins/firebase';
-import { Button } from 'reactstrap';
+import { Button, Form, FormGroup, Input, Label } from 'reactstrap';
+import { Formik } from 'formik';
+import * as Yup from 'yup';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
+import { db } from '../../plugins/firebase';
 
 const Index: React.FC = () => {
   const [list, setList] = useState<any>();
   const [nextDoc, setNextDoc] = useState<any>();
   const [prevDoc, setPrevDoc] = useState<any>();
+  const [email, setEmail] = useState<string>('');
   const { push } = useRouter();
   const usersRef = db.collection('users').orderBy('createdAt');
 
@@ -45,13 +47,45 @@ const Index: React.FC = () => {
     getData();
   }, []);
 
+  const EmailSearch = useCallback(async (email) => {
+    if (email === '') return getData();
+    const snapshots = await db.collection('users').where('email', '==', email).get();
+    const _docs = await snapshots.docs?.map((doc) => ({ id: doc.id, data: doc.data() }));
+    setList(_docs);
+  }, []);
+
   return (
     <div className="container">
       <h3 className="text-center my-5">一覧表示</h3>
       <div className="my-3">
         <Link href="/users/form">新規登録</Link>
       </div>
-      <div className="table">
+      <div>
+        <Formik
+          initialValues={{ email: '' }}
+          onSubmit={(values) => EmailSearch(values.email)}
+          validationSchema={Yup.object().shape({
+            email: Yup.string().email('メールアドレスの形式ではありません。'),
+          })}
+        >
+          {({ handleSubmit, handleChange, values }) => (
+            <Form onSubmit={handleSubmit}>
+              <FormGroup>
+                <Label for="email">メールアドレス検索</Label>
+                <Input
+                  type="email"
+                  id="email"
+                  name="email"
+                  value={values.email}
+                  onChange={handleChange}
+                />
+              </FormGroup>
+              <Button color="primary" type="submit">
+                検索
+              </Button>
+            </Form>
+          )}
+        </Formik>
         <UserList>
           <li>
             <p>ID</p>
