@@ -69,7 +69,7 @@ const Detail: React.FC = () => {
         {({ handleSubmit, handleChange, handleBlur, values, errors, touched }) => (
           <Form onSubmit={handleSubmit}>
             <FormGroup>
-              <Label for="name">氏名</Label>
+              <Label for="username">氏名</Label>
               <Input
                 type="text"
                 id="username"
@@ -142,7 +142,9 @@ const Detail: React.FC = () => {
                 ))}
               </Input>
             </FormGroup>
-            <Button type="submit">更新</Button>
+            <Button color="primary" type="submit">
+              更新
+            </Button>
           </Form>
         )}
       </Formik>

@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { Form, FormGroup, Label, Input, Button, FormFeedback, Col } from 'reactstrap';
+import { Form, FormGroup, Label, Input, Button, FormFeedback } from 'reactstrap';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import firebase, { db } from '../../plugins/firebase';
@@ -42,7 +42,7 @@ const Create: React.FC = () => {
         {({ handleSubmit, handleChange, handleBlur, values, errors, touched }) => (
           <Form onSubmit={handleSubmit}>
             <FormGroup>
-              <Label for="name">氏名</Label>
+              <Label for="username">氏名</Label>
               <Input
                 type="text"
                 id="username"
@@ -105,7 +105,9 @@ const Create: React.FC = () => {
                 onBlur={handleBlur}
               />
             </FormGroup>
-            <Button type="submit">登録</Button>
+            <Button color="primary" type="submit">
+              登録
+            </Button>
           </Form>
         )}
       </Formik>
