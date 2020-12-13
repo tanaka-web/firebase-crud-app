@@ -58,6 +58,8 @@ const Index: React.FC = () => {
       <h3 className="text-center my-5">一覧表示</h3>
       <div className="my-3">
         <Link href="/users/form">新規登録</Link>
+        <div className="mb-3"> </div>
+        <a href="https://us-central1-fir-crud-app-2a3a9.cloudfunctions.net/exportUsers">CSV出力</a>
       </div>
       <SearchWrapper>
         <Formik

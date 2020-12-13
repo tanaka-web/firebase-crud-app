@@ -6,6 +6,17 @@ const nodemailer = require('nodemailer');
 const cors = require('cors')({ origin: true });
 const gmailEmail = functions.config().gmail.email;
 const gmailPassword = functions.config().gmail.password;
+const admin = require('firebase-admin');
+const firebaseConfig = {
+  apiKey: 'XXXXXXXX',
+  authDomain: 'XXXXXXXX',
+  projectId: 'XXXXXXXX',
+  storageBucket: 'XXXXXXXX',
+  messagingSenderId: 'XXXXXXXX',
+  appId: 'XXXXXXXX',
+  measurementId: 'XXXXXXXX',
+};
+admin.initializeApp(firebaseConfig);
 
 const isDev = process.env.NODE_ENV !== 'production';
 const nextjsDistDir = join('src', require('./src/next.config.js').distDir);
@@ -51,4 +62,28 @@ exports.sendMail = functions.https.onRequest((req, res) => {
       return res.send('Sended');
     });
   });
+});
+
+exports.exportUsers = functions.https.onRequest((request, response) => {
+  const json2csv = require('json2csv').parse;
+  const db = admin.firestore();
+  const ordersRef = db.collection('users');
+  return ordersRef
+    .get()
+    .then((querySnapshot) => {
+      const orders = [];
+      querySnapshot.forEach((doc) => {
+        const order = doc.data();
+        orders.push(order);
+      });
+      const csv = json2csv(orders);
+      response.setHeader('Content-disposition', 'attachment; filename=users.csv');
+      response.set('Content-Type', 'text/csv');
+      response.status(200).send(csv);
+      return '';
+    })
+    .catch((err) => {
+      response.status(200).send('エラー発生： ' + err);
+      return Promise.resolve();
+    });
 });
