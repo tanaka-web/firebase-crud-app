@@ -74,7 +74,7 @@ const Index: React.FC = () => {
                   type="email"
                   id="email"
                   name="email"
-                  size="sm"
+                  bsSize="sm"
                   value={values.email}
                   onChange={handleChange}
                   placeholder="メールアドレス検索"
