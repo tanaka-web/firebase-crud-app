@@ -6,7 +6,7 @@ import { Formik } from 'formik';
 import * as Yup from 'yup';
 import firebase, { db } from '../../plugins/firebase';
 
-const DESIRED_JOB = ['ディレクター', 'デザイナー', 'エンジニア', 'その他'];
+const DESIRED_JOB = ['職種1', '職種2', '職種3', 'その他'];
 
 const Create: React.FC = () => {
   const router = useRouter();
@@ -22,6 +22,7 @@ const Create: React.FC = () => {
       status: '受付',
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
     });
+    window.alert('エントリーを受け付けました');
     router.push('/users');
   }, []);
 
@@ -36,7 +37,9 @@ const Create: React.FC = () => {
         onSubmit={(values) => handleOnSubmit(values)}
         validationSchema={Yup.object().shape({
           username: Yup.string().required('氏名は必須です。'),
-          email: Yup.string().email('emailの形式ではありません。').required('Emailは必須です。'),
+          email: Yup.string()
+            .email('メールアドレスの形式ではありません。')
+            .required('メールアドレスは必須です。'),
         })}
       >
         {({ handleSubmit, handleChange, handleBlur, values, errors, touched }) => (

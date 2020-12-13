@@ -6,8 +6,8 @@ import * as Yup from 'yup';
 import firebase, { db } from '../../plugins/firebase';
 import { useRouter } from 'next/router';
 
-const DESIRED_JOB = ['ディレクター', 'デザイナー', 'エンジニア', 'その他'];
-const STATUS = ['受付', '承認済み'];
+const DESIRED_JOB = ['職種1', '職種2', '職種3', 'その他'];
+const STATUS = ['受付', '承認済'];
 
 const Detail: React.FC = () => {
   const [user, setUsre] = useState<any>();
@@ -23,7 +23,7 @@ const Detail: React.FC = () => {
       status: values.status,
       updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
     });
-    push('/users/');
+    window.alert('編集内容更新しました');
   }, []);
 
   const getMember = async (uid) => {
@@ -63,7 +63,9 @@ const Detail: React.FC = () => {
         onSubmit={(values) => handleOnSubmit(values)}
         validationSchema={Yup.object().shape({
           username: Yup.string().required('氏名は必須です。'),
-          email: Yup.string().email('emailの形式ではありません。').required('Emailは必須です。'),
+          email: Yup.string()
+            .email('メールアドレスの形式ではありません。')
+            .required('メールアドレスは必須です。'),
         })}
       >
         {({ handleSubmit, handleChange, handleBlur, values, errors, touched }) => (

@@ -14,8 +14,12 @@ const Login: React.FC = () => {
         initialValues={{ email: '', password: '' }}
         onSubmit={handleLogin}
         validationSchema={Yup.object().shape({
-          email: Yup.string().required('email は必須です。'),
-          password: Yup.string().required('password は必須です。'),
+          email: Yup.string()
+            .email('メールアドレスの形式ではありません。')
+            .required('メールアドレスは必須です。'),
+          password: Yup.string()
+            .min(6, 'パスワードは6文字以上です')
+            .required('パスワードは必須です。'),
         })}
       >
         {({ handleSubmit, handleChange, handleBlur, values, errors, touched }) => (
