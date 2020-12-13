@@ -10,6 +10,7 @@ const Index: React.FC = () => {
   const [list, setList] = useState<any>();
   const [nextDoc, setNextDoc] = useState<any>();
   const [prevDoc, setPrevDoc] = useState<any>();
+  const [isSearched, setSearched] = useState<boolean>(false);
   const { push } = useRouter();
   const usersRef = db.collection('users');
 
@@ -38,16 +39,22 @@ const Index: React.FC = () => {
   );
 
   useEffect(() => {
+    setSearched(false);
     getData();
   }, []);
 
   const handleSearch = useCallback(async (text) => {
-    if (text === '') return getData();
+    if (text === '') {
+      setSearched(false);
+      getData();
+      return;
+    }
     let snapshots;
     snapshots = await usersRef.where('email', '==', text).get();
     if (snapshots.docs.length === 0) snapshots = await usersRef.where('username', '==', text).get();
     const _docs = await snapshots.docs?.map((doc) => ({ id: doc.id, data: doc.data() }));
     setList(_docs);
+    setSearched(true);
   }, []);
 
   return (
@@ -56,7 +63,11 @@ const Index: React.FC = () => {
       <div className="my-3">
         <Link href="/users/form">新規登録</Link>
         <div className="mb-3"> </div>
-        <a href="https://us-central1-fir-crud-app-2a3a9.cloudfunctions.net/exportUsers">CSV出力</a>
+        {!isSearched && (
+          <a href="https://us-central1-fir-crud-app-2a3a9.cloudfunctions.net/exportUsers">
+            CSV出力
+          </a>
+        )}
       </div>
       <SearchWrapper>
         <Formik initialValues={{ text: '' }} onSubmit={(values) => handleSearch(values.text)}>
@@ -108,24 +119,26 @@ const Index: React.FC = () => {
             </li>
           ))}
         </UserList>
-        <PageButtons>
-          <Button
-            outline
-            onClick={() => {
-              getData('prev');
-            }}
-          >
-            前へ
-          </Button>
-          <Button
-            outline
-            onClick={() => {
-              getData('next');
-            }}
-          >
-            次へ
-          </Button>
-        </PageButtons>
+        {!isSearched && (
+          <PageButtons>
+            <Button
+              outline
+              onClick={() => {
+                getData('prev');
+              }}
+            >
+              前へ
+            </Button>
+            <Button
+              outline
+              onClick={() => {
+                getData('next');
+              }}
+            >
+              次へ
+            </Button>
+          </PageButtons>
+        )}
       </div>
     </div>
   );
