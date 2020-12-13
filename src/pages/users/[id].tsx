@@ -15,7 +15,7 @@ const Detail: React.FC = () => {
 
   const handleOnSubmit = useCallback((values) => {
     db.collection('users').doc(String(query.id)).update({
-      name: values.username,
+      username: values.username,
       email: values.email,
       age: values.age,
       desired_job: values.desired_job,
