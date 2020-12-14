@@ -7,22 +7,19 @@ import * as Yup from 'yup';
 import firebase, { db } from '../../plugins/firebase';
 import { sendMail } from '../../apis/mail/send';
 import { DESIRED_JOB, SEND_MAIL_TEXT } from '../../config';
+import { createUser } from '../../apis/users/create';
 
 const Create: React.FC = () => {
   const router = useRouter();
 
   const handleOnSubmit = useCallback((values) => {
-    const docId = db.collection('users').doc().id;
     try {
-      db.collection('users').doc(docId).set({
-        docId: docId,
+      createUser({
         username: values.username,
         email: values.email,
         age: values.age,
         desired_job: values.desired_job,
         desired_reason: values.desired_reason,
-        status: '受付',
-        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
       });
       sendMail({ email: values.email, message: SEND_MAIL_TEXT });
     } catch {

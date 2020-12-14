@@ -3,28 +3,32 @@ import { Form, FormGroup, Label, Input, Button, FormFeedback } from 'reactstrap'
 import Link from 'next/link';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
-import firebase, { db } from '../../plugins/firebase';
+import { db } from '../../plugins/firebase';
 import { useRouter } from 'next/router';
 import { DESIRED_JOB, USER_STATUS } from '../../config';
+import { updateUser } from '../../apis/users/update';
 
 const Detail: React.FC = () => {
   const [user, setUsre] = useState<any>();
   const { push, query } = useRouter();
 
-  const handleOnSubmit = useCallback(async (values) => {
-    db.collection('users').doc(String(query.id)).update({
-      username: values.username,
-      email: values.email,
-      age: values.age,
-      desired_job: values.desired_job,
-      desired_reason: values.desired_reason,
-      status: values.status,
-      createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-    });
-    window.alert('編集内容更新しました');
-  }, []);
+  const handleOnSubmit = useCallback(
+    async (values) => {
+      updateUser({
+        id: query.id as string,
+        username: values.username,
+        email: values.email,
+        age: values.age,
+        desired_job: values.desired_job,
+        desired_reason: values.desired_reason,
+        status: values.status,
+      });
+      window.alert('編集内容更新しました');
+    },
+    [query],
+  );
 
-  const getMember = async (uid) => {
+  const getUser = async (uid) => {
     const docRef = db.collection('users').doc(uid);
     const doc = await docRef.get();
     if (!doc.exists) return;
@@ -39,7 +43,7 @@ const Detail: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    getMember(query.id);
+    getUser(query.id);
   }, [query]);
 
   return (

@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import Link from 'next/link';
 import { Button, Form, FormGroup, Input } from 'reactstrap';
-import { Formik } from 'formik';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
 import { db } from '../../plugins/firebase';
