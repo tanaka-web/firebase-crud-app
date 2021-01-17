@@ -4,7 +4,6 @@ import { useRouter } from 'next/router';
 import { Form, FormGroup, Label, Input, Button, FormFeedback } from 'reactstrap';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
-import firebase, { db } from '../../plugins/firebase';
 import { sendMail } from '../../apis/mail/send';
 import { DESIRED_JOB, SEND_MAIL_TEXT } from '../../config';
 import { createUser } from '../../apis/users/create';
