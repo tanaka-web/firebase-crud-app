@@ -36,10 +36,9 @@ const Detail: React.FC = () => {
   };
 
   const handleDelete = useCallback((uid) => {
-    if (window.confirm('削除しますか？')) {
-      db.collection('users').doc(uid).delete();
-      push('/users');
-    }
+    if (!window.confirm('削除しますか？')) return;
+    db.collection('users').doc(uid).delete();
+    push('/users');
   }, []);
 
   useEffect(() => {
@@ -64,11 +63,15 @@ const Detail: React.FC = () => {
         }}
         onSubmit={(values) => handleOnSubmit(values)}
         validationSchema={Yup.object().shape({
+          // @ts-ignore
           username: Yup.string().required('氏名は必須です。'),
+          // @ts-ignore
           email: Yup.string()
             .email('メールアドレスの形式ではありません。')
             .required('メールアドレスは必須です。'),
+          // @ts-ignore
           age: Yup.number().required('年齢は必須です。'),
+          // @ts-ignore
           desired_job: Yup.string().required('希望職種は必須です。'),
         })}
       >

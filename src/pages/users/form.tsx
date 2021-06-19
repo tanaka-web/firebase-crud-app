@@ -9,7 +9,7 @@ import { DESIRED_JOB, SEND_MAIL_TEXT } from '../../config';
 import { createUser } from '../../apis/users/create';
 
 const Create: React.FC = () => {
-  const router = useRouter();
+  const { push } = useRouter();
 
   const handleOnSubmit = useCallback((values) => {
     try {
@@ -26,7 +26,7 @@ const Create: React.FC = () => {
       return;
     }
     window.alert('エントリーを受け付けました\n登録したメールアドレスにメールを送信しました。');
-    router.push('/users');
+    push('/users');
   }, []);
 
   return (
@@ -45,11 +45,15 @@ const Create: React.FC = () => {
         }}
         onSubmit={(values) => handleOnSubmit(values)}
         validationSchema={Yup.object().shape({
+          // @ts-ignore
           username: Yup.string().required('氏名は必須です。'),
+          // @ts-ignore
           email: Yup.string()
             .email('メールアドレスの形式ではありません。')
             .required('メールアドレスは必須です。'),
+          // @ts-ignore
           age: Yup.number().required('年齢は必須です。'),
+          // @ts-ignore
           desired_job: Yup.string().required('希望職種は必須です。'),
         })}
       >
