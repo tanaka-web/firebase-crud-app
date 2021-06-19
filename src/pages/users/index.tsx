@@ -27,12 +27,9 @@ const Index: React.FC = () => {
         return;
       }
       if (snapshots.docs.length > 0) {
-        const _docs = await snapshots.docs?.map((doc) => ({ id: doc.id, data: doc.data() }));
-        setList(_docs);
-        const lastDoc = snapshots.docs[snapshots.docs.length - 1];
-        const firstDoc = snapshots.docs[0];
-        setNextDoc(lastDoc);
-        setPrevDoc(firstDoc);
+        setList(await snapshots.docs?.map((doc) => ({ id: doc.id, data: doc.data() })));
+        setNextDoc(snapshots.docs[snapshots.docs.length - 1]);
+        setPrevDoc(snapshots.docs[0]);
       }
     },
     [list, nextDoc, prevDoc, usersRef],
@@ -51,8 +48,7 @@ const Index: React.FC = () => {
     let snapshots;
     snapshots = await usersRef.where('email', '==', text).get();
     if (snapshots.docs.length === 0) snapshots = await usersRef.where('username', '==', text).get();
-    const _docs = await snapshots.docs?.map((doc) => ({ id: doc.id, data: doc.data() }));
-    setList(_docs);
+    setList(await snapshots.docs?.map((doc) => ({ id: doc.id, data: doc.data() })));
     setSearched(true);
     return false;
   }, []);
